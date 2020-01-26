@@ -54,7 +54,7 @@ class _SignUpState extends State<SignUp> {
 
       //Build profile update request
       var infoUpdate = UserUpdateInfo();
-      infoUpdate.displayName = nameFieldCtrl.text;
+      infoUpdate.displayName = nameFieldCtrl.text.trim();
 
       //Update profile now!
       await u.updateProfile(infoUpdate);

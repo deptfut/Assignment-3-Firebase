@@ -34,7 +34,7 @@ class _SignInState extends State<SignIn> {
   checkUser() async {
     FirebaseUser user = await FirebaseAuth.instance.currentUser();
     if(user != null){
-      Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
+      Navigator.push(context, MaterialPageRoute(builder: (context) => Home(user : user)));
     }
   }
 

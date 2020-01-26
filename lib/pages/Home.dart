@@ -18,6 +18,10 @@ class LogOut extends StatelessWidget {
 }
 
 class Home extends StatefulWidget {
+  final FirebaseUser user;
+
+  Home({this.user});
+
   @override
   _HomeState createState() => _HomeState();
 }
@@ -43,9 +47,10 @@ class _HomeState extends State<Home> {
       });
     });
   }
-
+  
   @override
   Widget build(BuildContext context) {
+
 
     if (!isLoaded) {
       loadData();
@@ -132,7 +137,7 @@ class _HomeState extends State<Home> {
               ),
               Padding(
                   padding: EdgeInsets.only(bottom: 19),
-                  child: Text("Fareed Ahmed Khan", style: TextStyle(
+                  child: Text("${widget.user.displayName}", style: TextStyle(
                       color: Colors.black,
                       fontSize: 17,
                       fontFamily: 'Montserrat',
@@ -335,7 +340,7 @@ class _HomeState extends State<Home> {
                       ),
                       Padding(
                         padding: EdgeInsets.only(left: 10),
-                        child: Text("Fareed Ahmed Khan", style: TextStyle(
+                        child: Text("${widget.user.displayName}", style: TextStyle(
                             color: Colors.black,
                             fontSize: 12,
                             fontFamily: 'Montserrat',
