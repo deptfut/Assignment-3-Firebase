@@ -1,5 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'Home.dart';
+//import 'Home.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebaseproject/models/Comment.dart';
 
@@ -12,12 +13,14 @@ class Comments extends StatefulWidget {
 
   List<Comment> comments;
   TextEditingController commentTextCtrl;
+  bool isLoaded;
 
   @override
   void initState() {
     super.initState();
     commentTextCtrl = TextEditingController();
     comments = [];
+    isLoaded = false;
   }
 
   sendComment(){
@@ -26,20 +29,29 @@ class Comments extends StatefulWidget {
     var key = reference.push().key;
     DatabaseReference nComment = reference.child(key);
     nComment.set(Comment(commentsText).toJson());
-    Navigator.of(context).pop(Home());
+    //Navigator.of(context).pop(Home());
+    commentTextCtrl.clear();
+  }
 
+  loadData() {
     var commentsRef = FirebaseDatabase.instance.reference().child("comments");
     commentsRef.onChildAdded.listen((event){
       Comment comment = Comment.fromJson(Map<String, dynamic>.from(event.snapshot.value));
       setState(() {
+        isLoaded = true;
         comments.add(comment);
       });
     });
-
   }
+
 
   @override
   Widget build(BuildContext context) {
+
+    if (!isLoaded) {
+      loadData();
+    }
+
     return Scaffold(
       appBar: AppBar(
         titleSpacing: -7.0,
@@ -77,19 +89,19 @@ class Comments extends StatefulWidget {
                     child: Row(
                       children: <Widget>[
                         RichText(
-                          text: new TextSpan(
-                            style: new TextStyle(fontSize: 12.0, fontFamily: 'Montserrat', color: Colors.black),
-                            children: <TextSpan>[
-                              new TextSpan(text: 'Fareed Ahmed Khan  ', style: new TextStyle(fontWeight: FontWeight.w600)),
-                              new TextSpan(text: 'Lorem ipsum dolor sit amet,',
-                                style: new TextStyle(
-                                    color: Color(0xFF3D3D3D),
-                                    fontSize: 11,
-                                    fontFamily: 'Nunito',
-                                    fontWeight: FontWeight.normal)
-                              )
-                            ]
-                          )
+                            text: new TextSpan(
+                                style: new TextStyle(fontSize: 12.0, fontFamily: 'Montserrat', color: Colors.black),
+                                children: <TextSpan>[
+                                  new TextSpan(text: 'Fareed Ahmed Khan  ', style: new TextStyle(fontWeight: FontWeight.w600)),
+                                  new TextSpan(text: 'Lorem ipsum dolor sit amet,',
+                                      style: new TextStyle(
+                                          color: Color(0xFF3D3D3D),
+                                          fontSize: 11,
+                                          fontFamily: 'Nunito',
+                                          fontWeight: FontWeight.normal)
+                                  )
+                                ]
+                            )
                         )
                       ]
                     )
@@ -107,24 +119,25 @@ class Comments extends StatefulWidget {
               child: ListView.builder(
                 itemCount: comments.length,
                 itemBuilder: (context, index){
-                  return Row(
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Padding(
                         padding: EdgeInsets.only(bottom: 15, left: 20, right: 20),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        child: Wrap(
                           children: <Widget>[
                             RichText(
-                              text: new TextSpan(
-                                style: new TextStyle(fontSize: 11.0, fontFamily: 'Nunito', color: Colors.black),
-                                children: <TextSpan>[
-                                  new TextSpan(text: 'Ishaq Hassan  ', style: new TextStyle(fontWeight: FontWeight.bold)),
-                                  new TextSpan(text: comments[index].commentsText,
-                                  style: new TextStyle(color: Color(0xFF3D3D3D), fontSize: 11, fontWeight: FontWeight.normal))
-                                ]
-                              )
-                            )
-                          ]
+                                  //overflow: TextOverflow.ellipsis,
+                                  text: new TextSpan(
+                                    style: new TextStyle(fontSize: 11.0, fontFamily: 'Nunito', color: Colors.black),
+                                    children: <TextSpan>[
+                                      new TextSpan(text: 'Ishaq Hassan  ', style: new TextStyle(fontWeight: FontWeight.bold)),
+                                      new TextSpan(text: comments[index].commentsText,
+                                          style: new TextStyle(color: Color(0xFF3D3D3D), fontSize: 11, fontWeight: FontWeight.normal))
+                                    ]
+                                  )
+                                )
+                          ],
                         )
                       )
                     ],

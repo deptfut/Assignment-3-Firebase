@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebaseproject/pages/comments.dart';
 import 'package:firebaseproject/pages/createPost.dart';
@@ -92,8 +93,42 @@ class _HomeState extends State<Home> {
           child: Column(
             children: <Widget>[
               Padding(
-                  padding: EdgeInsets.only(top: 59, bottom: 26),
-                  child: Image.asset("assets/images/author_image.png", fit: BoxFit.contain, width: 110, height: 110)
+                padding: EdgeInsets.only(top: 59, bottom: 26),
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(50.0),
+                  child: Stack(
+                    children: <Widget>[
+                      Container(
+                          height: 110,
+                          width: 110,
+                          decoration: BoxDecoration(
+                            color: Colors.black26,
+                            borderRadius: BorderRadius.all(Radius.circular(100.0)),
+                          ),
+                          child: Center(
+                            child: Padding(
+                              padding: EdgeInsets.all(19),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Icon(Icons.add_a_photo, size: 25),
+                                  SizedBox(height: 5),
+                                  Text("Upload Image", style: TextStyle(
+                                      fontSize: 11, fontWeight: FontWeight.bold, fontFamily: 'Nunito'
+                                    )
+                                  )
+                                ]
+                              )
+                            )
+                          )
+                      )
+                    ],
+                  ),
+                  onTap: (){
+
+                  },
+                )
+                //Image.asset("assets/images/author_image.png", fit: BoxFit.contain, width: 110, height: 110)
               ),
               Padding(
                   padding: EdgeInsets.only(bottom: 19),
@@ -107,10 +142,13 @@ class _HomeState extends State<Home> {
                   )
               ),
               Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                    color: Color(0xffF6F6F6),
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           Text("50", style: TextStyle(
                               color: Colors.black,
@@ -132,7 +170,11 @@ class _HomeState extends State<Home> {
                           )
                         ]
                     ),
-                    Column(
+                  ),
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                    color: Color(0xffF6F6F6),
+                    child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           Text("10", style: TextStyle(
@@ -154,8 +196,12 @@ class _HomeState extends State<Home> {
                               )
                           )
                         ]
-                    ),
-                    Column(
+                    )
+                  ),
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                    color: Color(0xffF6F6F6),
+                    child: Column(
                         children: <Widget>[
                           Text("100", style: TextStyle(
                               color: Colors.black,
@@ -177,6 +223,7 @@ class _HomeState extends State<Home> {
                           )
                         ]
                     )
+                  )
                   ]
               ),
               Padding(
@@ -349,13 +396,18 @@ class _HomeState extends State<Home> {
                           ),
                           Padding(
                             padding: EdgeInsets.only(top: 5),
-                            child: Text("View all comments", style: TextStyle(
-                                color: Color(0xffBBBBBB),
-                                fontSize: 10,
-                                fontFamily: 'Nuninto',
-                                fontWeight: FontWeight.normal
+                            child: GestureDetector(
+                              child: Text("View all comments", style: TextStyle(
+                                  color: Color(0xffBBBBBB),
+                                  fontSize: 10,
+                                  fontFamily: 'Nuninto',
+                                  fontWeight: FontWeight.normal
+                                )
+                              ),
+                              onTap: (){
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => Comments()));
+                              },
                             )
-                            ),
                           )
                         ]
                       )
